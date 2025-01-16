@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { Audio, FallingLines } from "react-loader-spinner";
 
 const Phones = () => {
+  const [loading, setLoading] = useState(true);
   const [phones, setPhones] = useState([]);
   useEffect(() => {
     //     fetch("https://openapi.programming-hero.com/api/phones?search=iphone")
@@ -22,12 +24,32 @@ const Phones = () => {
         });
         console.log(phonesWithFakeData);
         setPhones(phonesWithFakeData);
+        setLoading(!loading);
       });
     //   .then((data) => setPhones(data.data.data));
   }, []);
   return (
     <div>
       <h1 className="text-8xl">Hello Phones: {phones.length}</h1>
+      {loading && (
+        <div>
+          <Audio
+            height="80"
+            width="80"
+            radius="9"
+            color="green"
+            ariaLabel="three-dots-loading"
+            wrapperStyle
+            wrapperClass
+          />
+          <FallingLines
+            color="#4fa94d"
+            width="100"
+            visible={true}
+            ariaLabel="falling-circles-loading"
+          />
+        </div>
+      )}
       <BarChart width={1200} height={500} data={phones}>
         <Bar dataKey={"price"} fill="#8884d8"></Bar>
         <XAxis dataKey={"name"}></XAxis>
